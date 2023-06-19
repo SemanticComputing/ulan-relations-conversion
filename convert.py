@@ -17,6 +17,6 @@ for f_name in files:
     q_file = open(f_path, "r")
     query = q_file.read()
     q_file.close()
-    w_file = open("ttl/" + q_name + ".ttl", "w")
+    w_file = open("ttl/" + q_name + ".ttl", "w+")
     execute_query("http://vocab.getty.edu/sparql.ttl", w_file, query, f_name)
     w_file.close()
