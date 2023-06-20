@@ -3,10 +3,11 @@ import os
 
 def execute_query(store, write_file, query, name):
     print("executing query " + name)
-    print(query)
+    # print(query)
     response = requests.post(store,
                              data={'query': query})
     write_file.write(response.text)
+
 
 q_dir ="queries/"
 files = os.listdir(q_dir)
