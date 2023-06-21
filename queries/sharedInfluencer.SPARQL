@@ -1,0 +1,28 @@
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gvp: <http://vocab.getty.edu/ontology#>
+PREFIX aat: <http://vocab.getty.edu/aat/>
+PREFIX rel: <http://ldf.fi/schema/relations/>
+CONSTRUCT {
+  [] a rel:Relation_directed_p2p ;
+    rel:relationSubject ?person ;
+    rel:relationObject ?person2 ;
+    rdfs:label ?description ;
+    rel:relationType rel:sharedInfluencer .
+  }
+WHERE {
+  ?person a gvp:PersonConcept .
+  ?person gvp:prefLabelGVP/gvp:term ?name .
+  ?person2 a gvp:PersonConcept .
+  ?person2 gvp:prefLabelGVP/gvp:term ?name2 .
+  FILTER (?person != ?person2)
+  ?person gvp:ulan1108_influenced_by  ?influencer .
+  ?person2 gvp:ulan1108_influenced_by ?influencer .
+  ?influencer gvp:prefLabelGVP/gvp:term ?influencerName .
+BIND (CONCAT(?name, " and ", ?name2, " were both influenced by ", ?influencerName) AS ?description)
+}
