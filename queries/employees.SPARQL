@@ -13,7 +13,7 @@ CONSTRUCT {
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
-    rel:relationType rel:grandchildOf .
+    rel:relationType rel:employeeOf .
 }
 WHERE {
   ?person a gvp:PersonConcept .
@@ -24,7 +24,7 @@ WHERE {
   ?person2 xl:prefLabel ?label2 .
   ?label2 gvp:term ?name2 .
   FILTER (LANG(?name2) = '')
-  ?person gvp:ulan1513_grandchild_of ?person2 .
-  BIND (CONCAT(?name, " was a grandchild of ", ?name2, ".") AS ?description)
+  ?person gvp:ulan1217_employee_of ?person2 .
+  BIND (CONCAT(?name, " was an employee of ", ?name2, ".") AS ?description)
   
 }
