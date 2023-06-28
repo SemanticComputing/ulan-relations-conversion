@@ -20,7 +20,7 @@ WHERE {
     gvp:prefLabelGVP/gvp:term ?name;
     foaf:focus ?person.
    FILTER (LANG(?name) = '')
-  ?personConcept2 a gvp:PepyrsonConcept;
+  ?personConcept2 a gvp:PersonConcept;
 	 gvp:prefLabelGVP/gvp:term ?name2;
   	foaf:focus ?person2.
    FILTER (LANG(?name2) = '')
