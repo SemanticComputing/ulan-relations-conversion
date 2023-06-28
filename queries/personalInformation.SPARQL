@@ -1,0 +1,39 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+prefix gvp: <http://vocab.getty.edu/ontology#>
+prefix ulan: <http://vocab.getty.edu/ulan/>
+prefix xl: <http://www.w3.org/2008/05/skos-xl#>
+prefix foaf: <http://xmlns.com/foaf/0.1/>
+prefix schema: <http://schema.org/>
+PREFIX rel: <http://ldf.fi/schema/relations/>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX aat: <http://vocab.getty.edu/aat/>
+
+CONSTRUCT {
+  ?person a schema:Person ;
+    rdfs:label ?name;
+    schema:gender ?gender;
+    schema:birth ?birthPlace;
+    schema:deathPlace ?deathPlace ;
+    schema:birthDate ?birthYear;
+    schema:deathDate ?deathYear;
+    schema:nationality ?nationality.
+  }
+  
+ WHERE {
+  ?personConcept a gvp:PersonConcept;
+      gvp:prefLabelGVP/gvp:term ?name.
+  
+  ?personConcept foaf:focus ?person .
+  OPTIONAL {?person gvp:biographyPreferred/schema:birthPlace ?birthPlace. }
+  OPTIONAL {?person gvp:nationalityPreferred/gvp:prefLabelGVP /xl:literalForm ?nationality.}
+  OPTIONAL {?person gvp:biographyPreferred/schema:deathPlace ?deathPlace. }
+  OPTIONAL {?person gvp:biographyPreferred/gvp:estStart ?birthYear . }
+  OPTIONAL {?person gvp:biographyPreferred/gvp:estEnd ?deathYear . }
+  OPTIONAL {?person gvp:biographyPreferred/schema:gender ?gender. }
+
+}
