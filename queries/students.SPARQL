@@ -13,20 +13,17 @@ CONSTRUCT {
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
-    rel:relationType rel:studentOf .
+    rel:relationType rel:teacherOf .
 }
 WHERE {
-  ?person a gvp:PersonConcept .
-  #?person foaf:focus ?focus .
-  ?person xl:prefLabel ?label .
-  ?label gvp:term ?name .
-  FILTER (LANG(?name) = '')
-  ?person2 a gvp:PersonConcept .
-  #?person2 foaf:focus ?focus2 .
-  ?person2 xl:prefLabel ?label2 .
-  ?label2 gvp:term ?name2 .
-  FILTER (LANG(?name2) = '')
-  ?person gvp:ulan1102_student_of ?person2 .
-  BIND (CONCAT(CONCAT(CONCAT(?name, " was a student of "), ?name2), ".") AS ?description)
-  # BIND(URI(CONCAT(CONCAT(str(?person),str(?person2)),'studentof')) AS ?uri)
+  ?personConcept a gvp:PersonConcept;
+    gvp:prefLabelGVP/gvp:term ?name;
+    foaf:focus ?person.
+   FILTER (LANG(?name) = '')
+  ?personConcept2 a gvp:PersonConcept;
+	 gvp:prefLabelGVP/gvp:term ?name2;
+  	foaf:focus ?person2.
+   FILTER (LANG(?name2) = '')
+  ?personConcept gvp:ulan1101_teacher_of ?personConcept2 .
+  BIND (CONCAT(?name, " was a teacher of ", ?name2, ".") AS ?description)
 }

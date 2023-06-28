@@ -16,15 +16,14 @@ CONSTRUCT {
     rel:relationType rel:spouseOf .
 }
 WHERE {
-  ?person a gvp:PersonConcept .
-  ?person xl:prefLabel ?label .
-  ?label gvp:term ?name .
-  FILTER (LANG(?name) = '')
-  ?person2 a gvp:PersonConcept .
-  ?person2 xl:prefLabel ?label2 .
-  ?label2 gvp:term ?name2 .
-  FILTER (LANG(?name2) = '')
-  ?person gvp:ulan1541_spouse_of ?person2 .
+  ?personConcept a gvp:PersonConcept;
+    gvp:prefLabelGVP/gvp:term ?name;
+    foaf:focus ?person.
+   FILTER (LANG(?name) = '')
+  ?personConcept2 a gvp:PersonConcept;
+	  gvp:prefLabelGVP/gvp:term ?name2;
+  	foaf:focus ?person2.
+   FILTER (LANG(?name2) = '')
+  ?personConcept gvp:ulan1541_spouse_of ?personConcept2 .
   BIND (CONCAT(?name, " was a spouse of ", ?name2, ".") AS ?description)
-  
 }
