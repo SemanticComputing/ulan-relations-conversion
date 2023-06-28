@@ -16,15 +16,15 @@ CONSTRUCT {
     rel:relationType rel:apprenticeOf .
 }
 WHERE {
-  ?person a gvp:PersonConcept .
-  ?person xl:prefLabel ?label .
-  ?label gvp:term ?name .
+  ?personConcept a gvp:PersonConcept;
+     gvp:prefLabelGVP/gvp:term ?name;
+    foaf:focus ?person.
+  ?personConcept2 a gvp:PersonConcept;
+	 gvp:prefLabelGVP/gvp:term ?name2;
+  	foaf:focus ?person2.
   FILTER (LANG(?name) = '')
-  ?person2 a gvp:PersonConcept .
-  ?person2 xl:prefLabel ?label2 .
-  ?label2 gvp:term ?name2 .
   FILTER (LANG(?name2) = '')
-  ?person gvp:ulan1105_apprentice_of ?person2 .
+  ?personConcept gvp:ulan1105_apprentice_of ?personConcept2 .
   BIND (CONCAT(?name, " was an apprentice of ", ?name2, ".") AS ?description)
   
 }
