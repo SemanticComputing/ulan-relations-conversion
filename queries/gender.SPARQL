@@ -1,0 +1,14 @@
+prefix gvp: <http://vocab.getty.edu/ontology#>
+prefix foaf: <http://xmlns.com/foaf/0.1/>
+prefix schema: <http://schema.org/>
+PREFIX rel: <http://ldf.fi/schema/relations/>
+
+
+CONSTRUCT {
+  ?person schema:gender ?gender .
+  }
+ WHERE {
+  ?personConcept a gvp:PersonConcept;
+                foaf:focus ?person .
+  ?person gvp:biographyPreferred/schema:gender ?gender.
+}
