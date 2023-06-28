@@ -16,13 +16,15 @@ CONSTRUCT {
     rel:relationType rel:sharedInfluencer .
   }
 WHERE {
-  ?person a gvp:PersonConcept .
-  ?person gvp:prefLabelGVP/gvp:term ?name .
-  ?person2 a gvp:PersonConcept .
-  ?person2 gvp:prefLabelGVP/gvp:term ?name2 .
+  ?personConcept a gvp:PersonConcept;
+    gvp:prefLabelGVP/gvp:term ?name;
+    foaf:focus ?person.
+  ?personConcept2 a gvp:PersonConcept;
+	  gvp:prefLabelGVP/gvp:term ?name2;
+  	foaf:focus ?person2.
   FILTER (?person != ?person2)
-  ?person gvp:ulan1108_influenced_by  ?influencer .
-  ?person2 gvp:ulan1108_influenced_by ?influencer .
+  ?personConcept gvp:ulan1108_influenced_by  ?influencer .
+  ?personConcept2 gvp:ulan1108_influenced_by ?influencer .
   ?influencer gvp:prefLabelGVP/gvp:term ?influencerName .
-BIND (CONCAT(?name, " and ", ?name2, " were both influenced by ", ?influencerName) AS ?description)
+	BIND (CONCAT(?name, " and ", ?name2, " were both influenced by ", ?influencerName) AS ?description)
 }
