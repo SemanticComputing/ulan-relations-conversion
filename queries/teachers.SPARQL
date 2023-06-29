@@ -8,7 +8,11 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX gvp: <http://vocab.getty.edu/ontology#>
 PREFIX aat: <http://vocab.getty.edu/aat/>
 PREFIX rel: <http://ldf.fi/schema/relations/>
+PREFIX rlt: <http://ldf.fi/relations/types/>
+
 CONSTRUCT {
+  rlt:teacherOf a rel:RelationType ;
+      rdfs:label "was teacher of" . 
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
