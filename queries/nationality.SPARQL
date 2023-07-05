@@ -18,7 +18,9 @@ CONSTRUCT {
   }
   
  WHERE {
- ?personConcept a gvp:PersonConcept;
+   ?personConcept a gvp:PersonConcept;
       foaf:focus ?person .
-   ?person gvp:nationalityPreferred/gvp:prefLabelGVP /xl:literalForm ?nationality.
+   ?person gvp:nationalityPreferred/gvp:prefLabelGVP /gvp:term ?text.
+   
+   BIND(STR(?text) AS ?nationality)
 }
