@@ -14,18 +14,19 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 CONSTRUCT {
   rlt:influencedBy a rel:RelationType ;
       rdfs:label "was influenced by" . 
+      
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
-    rel:relationType rel:influencedBy .
+    rel:RelationType rlt:influencedBy .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
     gvp:prefLabelGVP/gvp:term ?name;
     foaf:focus ?person.
   ?personConcept2 a gvp:PersonConcept;
-	gvp:prefLabelGVP/gvp:term ?name2;
+	  gvp:prefLabelGVP/gvp:term ?name2;
   	foaf:focus ?person2.
   FILTER (LANG(?name) = '')
   FILTER (LANG(?name2) = '')
