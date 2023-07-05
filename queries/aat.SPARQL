@@ -1,0 +1,20 @@
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gvp: <http://vocab.getty.edu/ontology#>
+PREFIX aat: <http://vocab.getty.edu/aat/>
+PREFIX rel: <http://ldf.fi/schema/relations/>
+PREFIX rlt: <http://ldf.fi/relations/types/>
+
+CONSTRUCT {
+   <http://vocab.getty.edu/aat/300189559> rdfs:label "male" .
+   <http://vocab.getty.edu/aat/300189557> rdfs:label "female" .
+   <http://vocab.getty.edu/aat/300400512> rdfs:label "unavailable" .
+}
+WHERE {
+  <http://vocab.getty.edu/aat/300189559> ?p ?o .
+}
