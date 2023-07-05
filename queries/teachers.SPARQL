@@ -13,20 +13,21 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 CONSTRUCT {
   rlt:teacherOf a rel:RelationType ;
       rdfs:label "was teacher of" . 
+
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
-    rel:relationType rel:teacherOf .
+    rel:RelationType rlt:teacherOf .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
-      gvp:prefLabelGVP/gvp:term ?name;
-      foaf:focus ?person.
+    gvp:prefLabelGVP/gvp:term ?name;
+    foaf:focus ?person.
    FILTER (LANG(?name) = '')
   ?personConcept2 a gvp:PersonConcept;
-	    gvp:prefLabelGVP/gvp:term ?name2;
-  	  foaf:focus ?person2.
+	  gvp:prefLabelGVP/gvp:term ?name2;
+  	foaf:focus ?person2.
    FILTER (LANG(?name2) = '')
   ?personConcept gvp:ulan1101_teacher_of ?personConcept2 .
   BIND (CONCAT(?name, " was a teacher of ", ?name2, ".") AS ?description)

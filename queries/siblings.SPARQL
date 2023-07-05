@@ -13,11 +13,12 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 CONSTRUCT {
   rlt:siblingOf a rel:RelationType ;
       rdfs:label "was sibling of" . 
+
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
-    rel:relationType rel:siblingOf .
+    rel:RelationType rlt:siblingOf .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;

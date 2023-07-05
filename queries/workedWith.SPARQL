@@ -13,11 +13,12 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 CONSTRUCT {
   rlt:workedWith a rel:RelationType ;
       rdfs:label "worked together" . 
+
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
-    rel:relationType rel:workedWith .
+    rel:RelationType rlt:workedWith .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
@@ -25,7 +26,7 @@ WHERE {
     foaf:focus ?person.
    FILTER (LANG(?name) = '')
   ?personConcept2 a gvp:PersonConcept;
-	 gvp:prefLabelGVP/gvp:term ?name2;
+	  gvp:prefLabelGVP/gvp:term ?name2;
   	foaf:focus ?person2.
    FILTER (LANG(?name2) = '')
   ?personConcept gvp:ulan1305_worked_with ?personConcept2 .
