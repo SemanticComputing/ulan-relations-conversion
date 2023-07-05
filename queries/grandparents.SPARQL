@@ -13,11 +13,12 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 CONSTRUCT {
   rlt:grandparentOf a rel:RelationType ;
       rdfs:label "was grandparentOf of" . 
+
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
-    rel:relationType rel:grandparentOf .
+    rel:RelationType rlt:grandparentOf .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
