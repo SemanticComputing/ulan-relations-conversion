@@ -11,7 +11,7 @@ PREFIX rel: <http://ldf.fi/schema/relations/>
 PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
-  rlt:sharedTeacher rel:RelationType ;
+  rlt:sharedTeacher a rel:RelationType ;
       rdfs:label "had the same teacher" . 
 
   [] a rel:Relation_directed_p2p ;
@@ -28,8 +28,8 @@ WHERE {
       gvp:prefLabelGVP/gvp:term ?name2;
       foaf:focus ?person2.
   FILTER (?person != ?person2)
-  ?person gvp:ulan1102_student_of ?teacher .
-  ?person2 gvp:ulan1102_student_of ?teacher .
+  ?personConcept gvp:ulan1102_student_of ?teacher .
+  ?personConcept2 gvp:ulan1102_student_of ?teacher .
   ?teacher gvp:prefLabelGVP/gvp:term ?teacherName .
   BIND (CONCAT(?name, " and ", ?name2, " had the same teacher ", ?teacherName, '.') AS ?description)
 }

@@ -12,7 +12,8 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
   rlt:sharedInfluencer a rel:RelationType ;
-      rdfs:label "had the same influencer" .  
+      rdfs:label "had the same influencer" . 
+       
   [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
