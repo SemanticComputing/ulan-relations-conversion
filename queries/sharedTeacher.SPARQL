@@ -11,8 +11,9 @@ PREFIX rel: <http://ldf.fi/schema/relations/>
 PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
-  rlt:sharedInfluencer a rel:RelationType ;
-      rdfs:label "had the same influencer" .  
+  rlt:sharedTeacher rel:RelationType ;
+      rdfs:label "had the same teacher" . 
+
   [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
@@ -20,13 +21,15 @@ CONSTRUCT {
     rel:relationType rel:sharedTeacher .
   }
 WHERE {
-  ?person a gvp:PersonConcept .
-  ?person gvp:prefLabelGVP/gvp:term ?name .
-  ?person2 a gvp:PersonConcept .
-  ?person2 gvp:prefLabelGVP/gvp:term ?name2 .
+  ?personConcept a gvp:PersonConcept;
+      gvp:prefLabelGVP/gvp:term ?name;
+      foaf:focus ?person.
+  ?personConcept2 a gvp:PersonConcept;
+      gvp:prefLabelGVP/gvp:term ?name2;
+      foaf:focus ?person2.
   FILTER (?person != ?person2)
   ?person gvp:ulan1102_student_of ?teacher .
   ?person2 gvp:ulan1102_student_of ?teacher .
   ?teacher gvp:prefLabelGVP/gvp:term ?teacherName .
-  BIND (CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(?name, " and "), ?name2), " had the same teacher "), ?teacherName), '.') AS ?description)
+  BIND (CONCAT(?name, " and ", ?name2, " had the same teacher ", ?teacherName, '.') AS ?description)
 }
