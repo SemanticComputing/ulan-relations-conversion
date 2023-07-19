@@ -18,7 +18,7 @@ CONSTRUCT {
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
-    rel:RelationType rlt:studentOf .
+    rel:relationType rlt:studentOf .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
