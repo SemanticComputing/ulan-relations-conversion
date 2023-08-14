@@ -19,6 +19,12 @@ CONSTRUCT {
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
     rel:relationType rlt:apprenticeOf .
+
+   [] a rel:Relation_undirected ;
+    rel:connectedEntity ?person ;
+    rel:connectedEntity ?person2 ;
+    rdfs:label ?description2 ;
+    rel:relationType rlt:apprenticeOf .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
@@ -31,5 +37,5 @@ WHERE {
   FILTER (LANG(?name2) = '')
   ?personConcept gvp:ulan1105_apprentice_of ?personConcept2 .
   BIND (CONCAT(?name, " was an apprentice of ", ?name2, ".") AS ?description)
-  
+  BIND (CONCAT(?name, " and ", ?name2, "have an apprentice-master relationship.") AS ?description2)
 }
