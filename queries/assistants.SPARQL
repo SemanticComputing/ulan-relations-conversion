@@ -13,12 +13,22 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 CONSTRUCT {
   rlt:assistantOf a rel:RelationType ;
       rdfs:label "was assistant of" . 
+  
+  rlt:assistance a rel:RelationType ;
+      rdfs:label "had an apprentice-master relationship" . 
+
 
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
     rel:relationType rlt:assistantOf .
+
+    [] a rel:Relation_undirected ;
+    rel:connectedEntity ?person ;
+    rel:connectedEntity ?person2 ;
+    rdfs:label ?description2 ;
+    rel:relationType rlt:assistance .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
@@ -31,5 +41,5 @@ WHERE {
   FILTER (LANG(?name2) = '')
   ?personConcept gvp:ulan1307_assistant_of ?personConcept2 .
   BIND (CONCAT(?name, " was an assistant of ", ?name2, ".") AS ?description)
-  
+  BIND (CONCAT(?name, " and ", ?name2, "had an assistant-superior relationship.") AS ?description2)
 }

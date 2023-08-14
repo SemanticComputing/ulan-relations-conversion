@@ -15,7 +15,7 @@ CONSTRUCT {
       rdfs:label "was apprentice of" . 
 
    rlt:apprenticeship a rel:RelationType ;
-      rdfs:label "have an apprentice-master relationship" . 
+      rdfs:label "had an apprentice-master relationship" . 
 
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
