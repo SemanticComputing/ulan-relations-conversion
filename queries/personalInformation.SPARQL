@@ -20,8 +20,7 @@ CONSTRUCT {
     schema:birth ?birthPlace;
     schema:deathPlace ?deathPlace ;
     schema:birthDate ?birthYear;
-    schema:deathDate ?deathYear;
-    schema:nationality ?nationality.
+    schema:deathDate ?deathYear.
   }
   
  WHERE {
@@ -30,7 +29,7 @@ CONSTRUCT {
   
   ?personConcept foaf:focus ?person .
   OPTIONAL {?person gvp:biographyPreferred/schema:birthPlace ?birthPlace. }
-  OPTIONAL {?person gvp:nationalityPreferred/gvp:prefLabelGVP /xl:literalForm ?nationality.}
+  # OPTIONAL {?person gvp:nationalityPreferred/gvp:prefLabelGVP /xl:literalForm ?nationality.}
   OPTIONAL {?person gvp:biographyPreferred/schema:deathPlace ?deathPlace. }
   OPTIONAL {?person gvp:biographyPreferred/gvp:estStart ?birthYear . }
   OPTIONAL {?person gvp:biographyPreferred/gvp:estEnd ?deathYear . }
