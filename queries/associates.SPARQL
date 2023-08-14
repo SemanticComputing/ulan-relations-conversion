@@ -13,12 +13,20 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 CONSTRUCT {
   rlt:associateOf a rel:RelationType ;
       rdfs:label "was associate of" . 
+  rlt:associates a rel:RelationType ;
+      rdfs:label "were associates" .     
 
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
     rel:relationType rlt:associateOf .
+
+    [] a rel:Relation_undirected ;
+    rel:connectedEntity ?person ;
+    rel:connectedEntity ?person2 ;
+    rdfs:label ?description2 ;
+    rel:relationType rlt:associates .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
@@ -31,5 +39,5 @@ WHERE {
   FILTER (LANG(?name2) = '')
   ?personConcept gvp:ulan1302_associate_of ?personConcept2 .
   BIND (CONCAT(?name, " was an associate of ", ?name2, ".") AS ?description)
-  
+  BIND (CONCAT(?name, " and ", ?name2, " were associates.") AS ?description2)  
 }
