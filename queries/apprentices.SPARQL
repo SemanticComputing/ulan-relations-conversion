@@ -12,10 +12,10 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
    rlt:apprenticeOf a rel:RelationType ;
-      rdfs:label "was apprentice of" . 
+      rdfs:label ?label . 
 
    rlt:apprenticeship a rel:RelationType ;
-      rdfs:label "had an apprentice-master relationship" . 
+      rdfs:label ?label2 . 
 
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
@@ -31,14 +31,17 @@ CONSTRUCT {
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
-     gvp:prefLabelGVP/gvp:term ?name;
-    foaf:focus ?person.
+      gvp:prefLabelGVP/gvp:term ?name;
+      foaf:focus ?person.
+
   ?personConcept2 a gvp:PersonConcept;
-	 gvp:prefLabelGVP/gvp:term ?name2;
-  	foaf:focus ?person2.
-  FILTER (LANG(?name) = '')
-  FILTER (LANG(?name2) = '')
+	   gvp:prefLabelGVP/gvp:term ?name2;
+  	   foaf:focus ?person2.
+      
   ?personConcept gvp:ulan1105_apprentice_of ?personConcept2 .
-  BIND (CONCAT(?name, " was an apprentice of ", ?name2, ".") AS ?description)
-  BIND (CONCAT(?name, " and ", ?name2, "had an apprentice-master relationship.") AS ?description2)
+
+  BIND("was apprentice of" AS ?label)
+  BIND("had an apprentice-master relationship" AS ?label2)
+  BIND (CONCAT(?name, " ", ?label, " ", ?name2, ".") AS ?description)
+  BIND (CONCAT(?name, " and ", ?name2, " ", ?label2) AS ?description2)
 }
