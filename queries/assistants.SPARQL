@@ -14,7 +14,7 @@ CONSTRUCT {
   rlt:assistantOf a rel:RelationType ;
       rdfs:label ?label. 
   
-  rlt:assistance a rel:RelationType ;
+  rlt:assistants a rel:RelationType ;
       rdfs:label ?label2. 
 
 
@@ -28,7 +28,7 @@ CONSTRUCT {
     rel:connectedEntity ?person ;
     rel:connectedEntity ?person2 ;
     rdfs:label ?description2 ;
-    rel:relationType rlt:assistance.
+    rel:relationType rlt:assistants.
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;

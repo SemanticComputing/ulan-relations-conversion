@@ -14,7 +14,7 @@ CONSTRUCT {
    rlt:apprenticeOf a rel:RelationType ;
       rdfs:label ?label . 
 
-   rlt:apprenticeship a rel:RelationType ;
+   rlt:apprentices a rel:RelationType ;
       rdfs:label ?label2 . 
 
    [] a rel:Relation_directed_p2p ;
@@ -27,7 +27,7 @@ CONSTRUCT {
     rel:connectedEntity ?person ;
     rel:connectedEntity ?person2 ;
     rdfs:label ?description2 ;
-    rel:relationType rlt:apprenticeship .
+    rel:relationType rlt:apprentices.
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
@@ -37,7 +37,7 @@ WHERE {
   ?personConcept2 a gvp:PersonConcept;
 	   gvp:prefLabelGVP/gvp:term ?name2;
   	   foaf:focus ?person2.
-      
+
   ?personConcept gvp:ulan1105_apprentice_of ?personConcept2 .
 
   BIND("was apprentice of" AS ?label)
