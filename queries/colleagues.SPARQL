@@ -12,13 +12,28 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
   rlt:colleagueOf a rel:RelationType ;
-      rdfs:label "was colleague of" .
-       
-   [] a rel:Relation_directed_p2p ;
+      rdfs:label ?label . 
+  
+  rlt:colleagues a rel:RelationType ;
+      rdfs:label ?label2 . 
+  
+  [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
     rel:relationType rlt:colleagueOf .
+  
+  [] a rel:Relation_directed_p2p ;
+    rel:relationSubject ?person2 ;
+    rel:relationObject ?person ;
+    rdfs:label ?invDescription ;
+    rel:relationType rlt:colleagueOf .
+
+  [] a rel:Relation_undirected ;
+    rel:connectedEntity ?result ;
+    rel:connectedEntity ?person2 ;
+    rdfs:label ?description2 ;
+    rel:relationType rlt:colleagues .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
@@ -27,9 +42,15 @@ WHERE {
   ?personConcept2 a gvp:PersonConcept;
 	    gvp:prefLabelGVP/gvp:term ?name2;
   	  foaf:focus ?person2.
-  FILTER (LANG(?name) = '')
-  FILTER (LANG(?name2) = '')
+
   ?personConcept gvp:ulan1301_colleague_of ?personConcept2 .
-  BIND (CONCAT(?name, " was a colleague of ", ?name2, ".") AS ?description)
   
+  BIND("was colleague of" AS ?label)
+  BIND("were colleagues" AS ?label2)
+  BIND (CONCAT(?name, " ", ?label, " ", ?name2, ".") AS ?description)
+  BIND (CONCAT(?name2, " ", ?label, " ", ?name, ".") AS ?invDescription)
+  BIND (CONCAT(?name, " and ", ?name2, " ", ?label2) AS ?description2)
+  BIND( IF(STR(?personConcept) > STR(?personConcept2), ?person, ?person2) AS ?result)
+  
+  FILTER(?result != ?person2)
 }
