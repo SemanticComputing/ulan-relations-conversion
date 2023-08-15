@@ -11,48 +11,52 @@ PREFIX rel: <http://ldf.fi/schema/relations/>
 PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
-  rlt:childOf a rel:RelationType ;
-      rdfs:label ?cLabel. 
+  rlt:grandchildOf a rel:RelationType ;
+      rdfs:label ?cLabel . 
   
-  rlt:parentOf a rel:RelationType ;
-      rdfs:label ?pLabel. 
+  rlt:grandparentOf a rel:RelationType ;
+      rdfs:label ?pLabel . 
   
-  rlt:children a rel:RelationType ;
-      rdfs:label ?label.     
+  rlt:grandchildren a rel:RelationType ;
+      rdfs:label ?label .     
 
   [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?cDescription ;
-    rel:relationType rlt:childOf .
+    rel:relationType rlt:grandchildOf .
   
   [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?pDescription ;
-    rel:relationType rlt:parentOf .
+    rel:relationType rlt:grandparentOf .
   
   [] a rel:Relation_undirected ;
     rel:connectedEntity ?person ;
     rel:connectedEntity ?person2 ;
     rdfs:label ?description ;
-    rel:relationType rlt:children .
+    rel:relationType rlt:grandchildren .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
     gvp:prefLabelGVP/gvp:term ?name;
     foaf:focus ?person.
-
+  
   ?personConcept2 a gvp:PersonConcept;
 	  gvp:prefLabelGVP/gvp:term ?name2;
   	foaf:focus ?person2.
-
-  ?personConcept gvp:ulan1511_child_of ?personConcept2 .
-
-  BIND("was child of" AS ?cLabel)
-  BIND("was parent of" AS ?pLabel)
-  BIND("had a child-parent relationship" AS ?label)
+  
+  ?personConcept gvp:ulan1513_grandchild_of ?personConcept2 .
+  
+  BIND("was grandchild of" AS ?cLabel)
+  BIND("was grandparent of" AS ?pLabel)
+  BIND("had a grandchild-grandparent relationship" AS ?label)
   BIND (CONCAT(?name, " ", ?cLabel, " ", ?name2, ".") AS ?cDescription)
   BIND (CONCAT(?name2, " ", ?pLabel, " ", ?name, ".") AS ?pDescription)
   BIND (CONCAT(?name, " and ", ?name2, " ", ?label) AS ?description)
+  BIND( IF(STR(?personConcept) > STR(?personConcept2), ?person, ?person2) AS ?result)
+  
+  FILTER(?result != ?person2)
+  
 }
