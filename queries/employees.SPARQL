@@ -12,24 +12,37 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
   rlt:employeeOf a rel:RelationType ;
-      rdfs:label "was employee of" . 
+      rdfs:label ?label. 
+  
+  rlt:employees a rel:RelationType ;
+      rdfs:label ?label2. 
 
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
-    rel:relationType rlt:employeeOf .
+    rel:relationType rlt:employeeOf.
+
+    [] a rel:Relation_undirected ;
+    rel:connectedEntity ?person ;
+    rel:connectedEntity ?person2 ;
+    rdfs:label ?description2 ;
+    rel:relationType rlt:employees.
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
      gvp:prefLabelGVP/gvp:term ?name;
     foaf:focus ?person.
+
   ?personConcept2 a gvp:PersonConcept;
 	 gvp:prefLabelGVP/gvp:term ?name2;
   	foaf:focus ?person2.
-  FILTER (LANG(?name) = '')
-  FILTER (LANG(?name2) = '')
+  
   ?personConcept gvp:ulan1217_employee_of ?personConcept2 .
-  BIND (CONCAT(?name, " was an employee of ", ?name2, ".") AS ?description)
+  
+  BIND("was employee of" AS ?label)
+  BIND("had an employee-employer relationship" AS ?label2)
+  BIND (CONCAT(?name, " ", ?label, " ", ?name2, ".") AS ?description)
+  BIND (CONCAT(?name, " and ", ?name2, " ", ?label2) AS ?description2)
   
 }
