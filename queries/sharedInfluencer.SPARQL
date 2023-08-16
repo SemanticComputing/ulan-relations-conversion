@@ -13,6 +13,9 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 CONSTRUCT {
   rlt:sharedInfluencer a rel:RelationType ;
       rdfs:label ?label. 
+
+  rlt:sharedInfleuncerUnDir a rel:RelationType ;
+      rdfs:label ?label . 
        
   [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
@@ -20,13 +23,16 @@ CONSTRUCT {
     rdfs:label ?description ;
     rel:relationType rlt:sharedInfluencer .
 
-  rlt:sharedInfleuncerUnDir a rel:RelationType ;
-      rdfs:label ?label . 
+  [] a rel:Relation_directed_p2p ;
+    rel:relationSubject ?person2 ;
+    rel:relationObject ?person ;
+    rdfs:label ?invDescription ;
+    rel:relationType rlt:sharedInfluencer .  
       
    [] a rel:Relation_undirected ;
     rel:connectedEntity ?person ;
     rel:connectedEntity ?person2 ;
-    rdfs:label ?description2 ;
+    rdfs:label ?description;
     rel:relationType rlt:sharedInfleuncerUnDir .
   }
 WHERE {
@@ -47,6 +53,7 @@ WHERE {
 
   BIND("had the same influencer" AS ?label)
   BIND (CONCAT(?name, " and ", ?name2, " ", ?label, " ", ?influencerName) AS ?description)
+  BIND (CONCAT(?name2, " and ", ?name, " ", ?label, " ", ?influencerName) AS ?invDescription)
   
   BIND( IF(STR(?personConcept) > STR(?personConcept2), ?person, ?person2) AS ?result)
   FILTER(?result != ?person2)
