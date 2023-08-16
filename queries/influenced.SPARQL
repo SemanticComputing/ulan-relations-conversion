@@ -13,23 +13,50 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
   rlt:influenced a rel:RelationType ;
-      rdfs:label "influenced" . 
+      rdfs:label ?label. 
 
    [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
     rel:relationType rlt:influenced .
+
+  rlt:influencedBy a rel:RelationType ;
+      rdfs:label ?invLabel . 
+      
+   [] a rel:Relation_directed_p2p ;
+    rel:relationSubject ?person2 ;
+    rel:relationObject ?person ;
+    rdfs:label ?invDescription ;
+    rel:relationType rlt:influencedBy .
+
+  rlt:influence a rel:RelationType ;
+      rdfs:label ?label2 . 
+      
+   [] a rel:Relation_undirected ;
+    rel:connectedEntity ?person ;
+    rel:connectedEntity ?person2 ;
+    rdfs:label ?description2 ;
+    rel:relationType rlt:influence .
+
 }
 WHERE {
+
   ?personConcept a gvp:PersonConcept;
     gvp:prefLabelGVP/gvp:term ?name;
     foaf:focus ?person.
+
   ?personConcept2 a gvp:PersonConcept;
 	gvp:prefLabelGVP/gvp:term ?name2;
   	foaf:focus ?person2.
-  FILTER (LANG(?name) = '')
-  FILTER (LANG(?name2) = '')
+
   ?personConcept  gvp:ulan1107_influenced ?personConcept2 .
-  BIND (CONCAT(?name, " influenced ", ?name2, ".") AS ?description)
+
+  BIND("influenced" AS ?label)
+  BIND("was influenced by" AS ?invLabel)
+  BIND("had an influencer-follower relationship" AS ?label2)
+  BIND (CONCAT(?name, " ", ?label, " ", ?name2, ".") AS ?description)
+  BIND (CONCAT(?name2, " ", ?invLabel, " ", ?name, ".") AS ?invDescription)
+  BIND (CONCAT(?name, " and ", ?name2, " ", ?label2) AS ?description2)
+  
 }
