@@ -12,24 +12,44 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
   rlt:sharedInfluencer a rel:RelationType ;
-      rdfs:label "had the same influencer" . 
+      rdfs:label ?label. 
        
   [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
     rdfs:label ?description ;
     rel:relationType rlt:sharedInfluencer .
+
+  rlt:sharedInfleuncerUnDir a rel:RelationType ;
+      rdfs:label ?label . 
+      
+   [] a rel:Relation_undirected ;
+    rel:connectedEntity ?person ;
+    rel:connectedEntity ?person2 ;
+    rdfs:label ?description2 ;
+    rel:relationType rlt:sharedInfleuncerUnDir .
   }
 WHERE {
+
   ?personConcept a gvp:PersonConcept;
     gvp:prefLabelGVP/gvp:term ?name;
     foaf:focus ?person.
+
   ?personConcept2 a gvp:PersonConcept;
 	  gvp:prefLabelGVP/gvp:term ?name2;
   	foaf:focus ?person2.
+
   FILTER (?person != ?person2)
-  ?personConcept gvp:ulan1108_influenced_by  ?influencer .
-  ?personConcept2 gvp:ulan1108_influenced_by ?influencer .
-  ?influencer gvp:prefLabelGVP/gvp:term ?influencerName .
-	BIND (CONCAT(?name, " and ", ?name2, " were both influenced by ", ?influencerName) AS ?description)
+
+  ?influencer gvp:ulan1107_influenced ?personConcept;
+              gvp:ulan1107_influenced ?personConcept2;
+              gvp:prefLabelGVP/gvp:term ?influencerName .
+
+  BIND("had the same influencer" AS ?label)
+  BIND (CONCAT(?name, " and ", ?name2, " ", ?label, " ", ?influencerName) AS ?description)
+  
+  BIND( IF(STR(?personConcept) > STR(?personConcept2), ?person, ?person2) AS ?result)
+  FILTER(?result != ?person2)
+
+
 }
