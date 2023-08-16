@@ -1,0 +1,44 @@
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gvp: <http://vocab.getty.edu/ontology#>
+PREFIX aat: <http://vocab.getty.edu/aat/>
+PREFIX rel: <http://ldf.fi/schema/relations/>
+PREFIX rlt: <http://ldf.fi/relations/types/>
+
+CONSTRUCT {
+  rlt:sharedTeacherUnDir a rel:RelationType ;
+      rdfs:label ?label. 
+      
+  [] a rel:Relation_undirected ;
+    rel:connectedEntity ?person ;
+    rel:connectedEntity ?person2 ;
+    rdfs:label ?description;
+    rel:relationType rlt:sharedTeacherUnDir .
+  }
+WHERE {
+  ?personConcept a gvp:PersonConcept;
+      gvp:prefLabelGVP/gvp:term ?name;
+      foaf:focus ?person.
+
+  ?personConcept2 a gvp:PersonConcept;
+      gvp:prefLabelGVP/gvp:term ?name2;
+      foaf:focus ?person2.
+
+  FILTER (?person != ?person2)
+
+  ?teacher gvp:ulan1101_teacher_of ?personConcept;
+          gvp:ulan1101_teacher_of ?personConcept2;
+          gvp:prefLabelGVP/gvp:term ?teacherName .
+
+  BIND("had the same teacher" AS ?label)
+  BIND (CONCAT(?name, " and ", ?name2, " ", ?label, " ", ?teacherName) AS ?description)
+  
+  BIND( IF(STR(?personConcept) > STR(?personConcept2), ?person, ?person2) AS ?result)
+  FILTER(?result != ?person2)
+
+}
