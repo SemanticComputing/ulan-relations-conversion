@@ -12,23 +12,47 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
   rlt:studentOf a rel:RelationType ;
-      rdfs:label "was student of" . 
+      rdfs:label ?sLabel.
 
-   [] a rel:Relation_directed_p2p ;
+  rlt:teacherOf a rel:RelationType ;
+      rdfs:label ?tLabel. 
+
+  rlt:students a rel:RelationType ;
+      rdfs:label ?label.  
+
+  [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?person ;
     rel:relationObject ?person2 ;
+    rdfs:label ?sDescription ;
+    rel:relationType rlt:studentOf.
+
+  [] a rel:Relation_directed_p2p ;
+    rel:relationSubject ?person ;
+    rel:relationObject ?person2 ;
+    rdfs:label ?tDescription ;
+    rel:relationType rlt:teacherOf .
+
+  [] a rel:Relation_undirected ;
+    rel:connectedEntity ?person ;
+    rel:connectedEntity ?person2 ;
     rdfs:label ?description ;
-    rel:relationType rlt:studentOf .
+    rel:relationType rlt:students.
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
     gvp:prefLabelGVP/gvp:term ?name;
     foaf:focus ?person.
-   FILTER (LANG(?name) = '')
+  
   ?personConcept2 a gvp:PersonConcept;
 	  gvp:prefLabelGVP/gvp:term ?name2;
   	foaf:focus ?person2.
-   FILTER (LANG(?name2) = '')
+   
   ?personConcept gvp:ulan1102_student_of ?personConcept2 .
-  BIND (CONCAT(?name, " was a student of ", ?name2, ".") AS ?description)
+
+  BIND("was student of" AS ?sLabel)
+  BIND("was teacher of" AS ?tLabel)
+  BIND("had a student-teacher relationship" AS ?label)
+  BIND (CONCAT(?name, " ", ?sLabel, " ", ?name2, ".") AS ?sDescription)
+  BIND (CONCAT(?name2, " ", ?tLabel, " ", ?name, ".") AS ?tDescription)
+  BIND (CONCAT(?name, " ", ?label, " ", ?name2, " ", ?label, ".") AS ?description)
 }
