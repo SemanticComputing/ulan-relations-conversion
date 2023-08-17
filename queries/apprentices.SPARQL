@@ -18,14 +18,14 @@ CONSTRUCT {
       rdfs:label ?label2 . 
 
    [] a rel:Relation_directed_p2p ;
-    rel:relationSubject ?person ;
-    rel:relationObject ?person2 ;
+    rel:relationSubject ?newURI ;
+    rel:relationObject ?newURI2 ;
     rdfs:label ?description ;
     rel:relationType rlt:apprenticeOf .
 
    [] a rel:Relation_undirected ;
-    rel:connectedEntity ?person ;
-    rel:connectedEntity ?person2 ;
+    rel:connectedEntity ?newURI ;
+    rel:connectedEntity ?newURI2 ;
     rdfs:label ?description2 ;
     rel:relationType rlt:apprentices.
 }
@@ -39,6 +39,11 @@ WHERE {
   	   foaf:focus ?person2.
 
   ?personConcept gvp:ulan1105_apprentice_of ?personConcept2 .
+
+  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
+  BIND(STRAFTER(str(?personConcept2), "/ulan/") AS ?id2)
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id2)) AS ?newURI2)
 
   BIND("was apprentice of" AS ?label)
   BIND("had an apprentice-master relationship" AS ?label2)
