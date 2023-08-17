@@ -6,10 +6,14 @@ PREFIX rel: <http://ldf.fi/schema/relations/>
 
 
 CONSTRUCT {
-  ?person rdfs:label ?name .
+  ?newURI rdfs:label ?name .
   }
  WHERE {
   ?personConcept a gvp:PersonConcept;
-      gvp:prefLabelGVP/gvp:term ?name;
-      foaf:focus ?person .
+      gvp:prefLabelGVP/gvp:term ?label.
+
+  BIND(STR(?label) AS ?name)
+  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
+
 }
