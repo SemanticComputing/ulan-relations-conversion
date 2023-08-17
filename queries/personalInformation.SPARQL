@@ -17,8 +17,8 @@ CONSTRUCT {
   ?person a schema:Person ;
     rdfs:label ?name;
     schema:gender ?gender;
-    schema:birth ?birthPlace;
-    schema:deathPlace ?deathPlace ;
+    schema:birthPlace ?bPlace;
+    schema:deathPlace ?dPlace ;
     schema:birthDate ?birthYear;
     schema:deathDate ?deathYear;
     schema:occupation ?occ.
@@ -29,8 +29,17 @@ CONSTRUCT {
       gvp:prefLabelGVP/gvp:term ?name.
   
   ?personConcept foaf:focus ?person .
-  OPTIONAL {?person gvp:biographyPreferred/schema:birthPlace ?birthPlace. }
-  OPTIONAL {?person gvp:biographyPreferred/schema:deathPlace ?deathPlace. }
+
+  OPTIONAL {
+    ?person gvp:biographyPreferred/schema:birthPlace ?agentBPlace.
+    [] foaf:focus ?agentBPlace;
+            gvp:prefLabelGVP/xl:literalForm ?bPlace.
+   }
+  OPTIONAL {
+    ?person gvp:biographyPreferred/schema:deathPlace ?agentDPlace.
+    [] foaf:focus ?agentDPlace;
+            gvp:prefLabelGVP/xl:literalForm ?dPlace.
+   }
   OPTIONAL {?person gvp:biographyPreferred/gvp:estStart ?birthYear . }
   OPTIONAL {?person gvp:biographyPreferred/gvp:estEnd ?deathYear . }
   OPTIONAL {?person gvp:biographyPreferred/schema:gender ?gender. }
