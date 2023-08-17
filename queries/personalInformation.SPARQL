@@ -14,21 +14,16 @@ PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX aat: <http://vocab.getty.edu/aat/>
 
 CONSTRUCT {
-  ?person a schema:Person ;
-    rdfs:label ?name;
-    schema:gender ?gender;
+  ?newURI
     schema:birthPlace ?bPlace;
     schema:deathPlace ?dPlace ;
     schema:birthDate ?birthYear;
-    schema:deathDate ?deathYear;
     schema:occupation ?occ.
   }
   
  WHERE {
   ?personConcept a gvp:PersonConcept;
-      gvp:prefLabelGVP/gvp:term ?name.
-  
-  ?personConcept foaf:focus ?person .
+      		foaf:focus ?person .
 
   OPTIONAL {
     ?person gvp:biographyPreferred/schema:birthPlace ?agentBPlace.
@@ -41,11 +36,11 @@ CONSTRUCT {
             gvp:prefLabelGVP/xl:literalForm ?dPlace.
    }
   OPTIONAL {?person gvp:biographyPreferred/gvp:estStart ?birthYear . }
-  OPTIONAL {?person gvp:biographyPreferred/gvp:estEnd ?deathYear . }
-  OPTIONAL {?person gvp:biographyPreferred/schema:gender ?gender. }
   OPTIONAL {
     ?personConcept gvp:agentTypePreferred/gvp:prefLabelGVP/xl:literalForm ?agentType.
     BIND(STR(?agentType) AS ?occ)
     }
 
-}
+  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
+} 
