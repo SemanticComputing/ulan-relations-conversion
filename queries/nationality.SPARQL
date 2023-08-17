@@ -14,13 +14,16 @@ PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX aat: <http://vocab.getty.edu/aat/>
 
 CONSTRUCT {
-  ?person  schema:nationality ?nationality.
+  ?newURI schema:nationality ?nationality.
   }
   
  WHERE {
    ?personConcept a gvp:PersonConcept;
-      foaf:focus ?person .
-   ?person gvp:nationalityPreferred/gvp:prefLabelGVP /gvp:term ?text.
+      foaf:focus/gvp:nationalityPreferred/gvp:prefLabelGVP /gvp:term ?text.
    
    BIND(STR(?text) AS ?nationality)
+
+   BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
+   BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
+
 }
