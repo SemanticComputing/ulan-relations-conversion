@@ -1,0 +1,36 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+prefix gvp: <http://vocab.getty.edu/ontology#>
+prefix ulan: <http://vocab.getty.edu/ulan/>
+prefix xl: <http://www.w3.org/2008/05/skos-xl#>
+prefix foaf: <http://xmlns.com/foaf/0.1/>
+prefix schema: <http://schema.org/>
+PREFIX rel: <http://ldf.fi/schema/relations/>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX aat: <http://vocab.getty.edu/aat/>
+
+CONSTRUCT {
+  ?newURI ?rel ?newURI2
+}
+WHERE {
+  ?personConcept a gvp:PersonConcept;
+  	gvp:prefLabelGVP/gvp:term [];
+   	?rel ?personConcept2;
+    foaf:focus ?person.
+  
+  ?personConcept2 a gvp:PersonConcept;
+    foaf:focus ?person2.
+    
+  ?rel rdfs:subPropertyOf skos:related.
+  
+  FILTER(?rel != skos:related)
+  
+  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
+  BIND(STRAFTER(str(?personConcept2), "/ulan/") AS ?id2)
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id2)) AS ?newURI2)
+} 
