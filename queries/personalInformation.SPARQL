@@ -14,7 +14,7 @@ PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX aat: <http://vocab.getty.edu/aat/>
 
 CONSTRUCT {
-  ?newURI
+  ?newURI a schema:Person;
     schema:birthPlace ?bPlace;
     schema:deathPlace ?dPlace ;
     schema:birthDate ?birthYear;
