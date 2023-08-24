@@ -14,8 +14,8 @@ CONSTRUCT {
    rlt:employeesCombined a rel:RelationType;
       rdfs:label ?label . 
 
-  ?relURI a rel:combinedRelation;
-    rel:connectedEntity ?newURI;
+  ?newURI a rel:combinedRelation;
+    rel:connectedEntity ?relURI;
     rdfs:label ?description ;
     rel:relationType rlt:employeesCombined .
 }
@@ -30,8 +30,8 @@ WHERE {
 
   ?relatedConcept gvp:ulan1217_employee_of ?personConcept.
 
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?relatedConcept), "/ulan/"))) AS ?newURI)
-  BIND(URI(CONCAT("http://ldf.fi/schema/relations/employeesCombined/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?relURI)
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?relatedConcept), "/ulan/"))) AS ?relURI)
+  BIND(URI(CONCAT("http://ldf.fi/schema/relations/employeesCombined/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?newURI)
  
   BIND (CONCAT("had employees") AS ?label)
   BIND (CONCAT(?name, " ", ?label) AS ?description)
