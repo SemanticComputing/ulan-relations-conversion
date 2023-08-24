@@ -1,0 +1,39 @@
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gvp: <http://vocab.getty.edu/ontology#>
+PREFIX aat: <http://vocab.getty.edu/aat/>
+PREFIX rel: <http://ldf.fi/schema/relations/>
+PREFIX rlt: <http://ldf.fi/relations/types/>
+
+CONSTRUCT {
+   rlt:cousinsCombined a rel:RelationType;
+      rdfs:label ?label . 
+
+  ?relURI a rel:combinedRelation;
+    rel:connectedEntity ?newURI;
+    rdfs:label ?description ;
+    rel:relationType rlt:cousinsCombined .
+}
+WHERE {
+  ?personConcept a gvp:PersonConcept;
+      gvp:prefLabelGVP/gvp:term ?name;
+      foaf:focus ?person.
+
+  ?relatedConcept a gvp:PersonConcept;
+	   gvp:prefLabelGVP/gvp:term ?rName;
+  	   foaf:focus ?rPerson.
+
+  ?relatedConcept gvp:ulan1521_cousin_of ?personConcept.
+
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?relatedConcept), "/ulan/"))) AS ?newURI)
+  BIND(URI(CONCAT("http://ldf.fi/schema/relations/cousinsCombined/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?relURI)
+ 
+  BIND (CONCAT("had cousins") AS ?label)
+  BIND (CONCAT(?name, " ", ?label) AS ?description)
+}
+
