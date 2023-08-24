@@ -11,13 +11,13 @@ PREFIX rel: <http://ldf.fi/schema/relations/>
 PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
-   rlt:apprenticesCombined a rel:RelationType;
+   rlt:collaboratorsCombined a rel:RelationType;
       rdfs:label ?label . 
 
   ?relURI a rel:combinedRelation;
     rel:connectedEntity ?newURI;
     rdfs:label ?description ;
-    rel:relationType rlt:apprenticesCombined .
+    rel:relationType rlt:collaboratorsCombined .
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
@@ -28,12 +28,12 @@ WHERE {
 	   gvp:prefLabelGVP/gvp:term ?rName;
   	   foaf:focus ?rPerson.
 
-  ?relatedConcept gvp:ulan1105_apprentice_of ?personConcept.
+  ?relatedConcept gvp:ulan1303_collaborated_with ?personConcept.
 
   BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?relatedConcept), "/ulan/"))) AS ?newURI)
-  BIND(URI(CONCAT("http://ldf.fi/schema/relations/apprenticesCombined/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?relURI)
+  BIND(URI(CONCAT("http://ldf.fi/schema/relations/collaboratorsCombined/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?relURI)
  
-  BIND (CONCAT("had apprentices") AS ?label)
+  BIND (CONCAT("had collaborators") AS ?label)
   BIND (CONCAT(?name, " ", ?label) AS ?description)
 }
 
