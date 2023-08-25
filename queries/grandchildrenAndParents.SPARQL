@@ -27,8 +27,8 @@ CONSTRUCT {
     rel:relationType rlt:grandchildOf .
   
   [] a rel:Relation_directed_p2p ;
-    rel:relationSubject ?newURI ;
-    rel:relationObject ?newURI2 ;
+    rel:relationSubject ?newURI2 ;
+    rel:relationObject ?newURI ;
     rdfs:label ?pDescription ;
     rel:relationType rlt:grandparentOf .
   

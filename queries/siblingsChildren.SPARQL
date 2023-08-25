@@ -11,34 +11,37 @@ PREFIX rel: <http://ldf.fi/schema/relations/>
 PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
-  rlt:childOf a rel:RelationType ;
-      rdfs:label ?cLabel. 
+  rlt:nephewNieceOf a rel:RelationType ;
+      rdfs:label ?nLabel. 
   
-  rlt:parentOf a rel:RelationType ;
-      rdfs:label ?pLabel. 
+  rlt:uncleAuntOf a rel:RelationType ;
+      rdfs:label ?uLabel. 
   
-  rlt:children a rel:RelationType ;
+  rlt:nephewsNieces a rel:RelationType ;
       rdfs:label ?label.     
 
   [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?newURI ;
     rel:relationObject ?newURI2 ;
-    rdfs:label ?cDescription ;
-    rel:relationType rlt:childOf .
+    rdfs:label ?nDescription ;
+    rel:relationType rlt:nephewNieceOf .
   
   [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?newURI2 ;
     rel:relationObject ?newURI ;
-    rdfs:label ?pDescription ;
-    rel:relationType rlt:parentOf .
+    rdfs:label ?uDescription ;
+    rel:relationType rlt:uncleAuntOf .
   
   [] a rel:Relation_undirected ;
     rel:connectedEntity ?newURI ;
     rel:connectedEntity ?newURI2 ;
     rdfs:label ?description ;
-    rel:relationType rlt:children .
+    rel:relationType rlt:nephewsNieces  .
 }
 WHERE {
+  
+  ?personConcept gvp:ulan1531_nephew-niece_of ?personConcept2 .
+  
   ?personConcept a gvp:PersonConcept;
     gvp:prefLabelGVP/gvp:term ?name;
     foaf:focus ?person.
@@ -47,17 +50,15 @@ WHERE {
 	  gvp:prefLabelGVP/gvp:term ?name2;
   	foaf:focus ?person2.
 
-  ?personConcept gvp:ulan1511_child_of ?personConcept2 .
-
   BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
   BIND(STRAFTER(str(?personConcept2), "/ulan/") AS ?id2)
   BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
   BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id2)) AS ?newURI2)
 
-  BIND("was child of" AS ?cLabel)
-  BIND("was parent of" AS ?pLabel)
-  BIND("had a child-parent relationship" AS ?label)
-  BIND (CONCAT(?name, " ", ?cLabel, " ", ?name2, ".") AS ?cDescription)
-  BIND (CONCAT(?name2, " ", ?pLabel, " ", ?name, ".") AS ?pDescription)
+  BIND("was nephew/niece of" AS ?nLabel)
+  BIND("was uncle/aunt of" AS ?uLabel)
+  BIND("had a nephew/niece - uncle/aunt relationship" AS ?label)
+  BIND (CONCAT(?name, " ", ?nLabel, " ", ?name2, ".") AS ?nDescription)
+  BIND (CONCAT(?name2, " ", ?uLabel, " ", ?name, ".") AS ?uDescription)
   BIND (CONCAT(?name, " and ", ?name2, " ", ?label) AS ?description)
 }
