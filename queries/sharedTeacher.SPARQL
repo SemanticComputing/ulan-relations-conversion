@@ -11,35 +11,34 @@ PREFIX rel: <http://ldf.fi/schema/relations/>
 PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
+
   rlt:sharedTeacher a rel:RelationType ;
-      rdfs:label ?label . 
+      rdfs:label "had the same teacher" . 
 
   [] a rel:Relation_directed_p2p ;
     rel:relationSubject ?newURI ;
     rel:relationObject ?newURI2 ;
     rdfs:label ?description ;
-    rel:relationType rlt:sharedTeacher .
+    rel:relationType rlt:sharedTeacher .  
   }
 WHERE {
+  ?teacher gvp:ulan1101_teacher_of ?personConcept;
+           gvp:ulan1101_teacher_of ?personConcept2.
+  
+  FILTER (?personConcept != ?personConcept2)
+  
+  ?teacher gvp:prefLabelGVP/gvp:term ?teacherName .
+  
   ?personConcept a gvp:PersonConcept;
       gvp:prefLabelGVP/gvp:term ?name;
-      foaf:focus ?person.
+      foaf:focus [].
 
   ?personConcept2 a gvp:PersonConcept;
       gvp:prefLabelGVP/gvp:term ?name2;
-      foaf:focus ?person2.
-
-  FILTER (?person != ?person2)
-
-  ?teacher gvp:ulan1101_teacher_of ?personConcept;
-          gvp:ulan1101_teacher_of ?personConcept2;
-          gvp:prefLabelGVP/gvp:term ?teacherName .
-
-  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
-  BIND(STRAFTER(str(?personConcept2), "/ulan/") AS ?id2)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id2)) AS ?newURI2)
-
-  BIND("had the same teacher" AS ?label)
-  BIND (CONCAT(?name, " and ", ?name2, " ", ?label, " ", ?teacherName) AS ?description)
-}
+      foaf:focus [].
+  
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?newURI)
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?personConcept2), "/ulan/"))) AS ?newURI2)
+ 
+  BIND (CONCAT(?name, " and ", ?name2, "had the same teacher ", ?teacherName) AS ?description)
+} 
