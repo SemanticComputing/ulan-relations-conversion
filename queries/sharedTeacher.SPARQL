@@ -40,5 +40,5 @@ WHERE {
   BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?newURI)
   BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?personConcept2), "/ulan/"))) AS ?newURI2)
  
-  BIND (CONCAT(?name, " and ", ?name2, "had the same teacher ", ?teacherName) AS ?description)
+  BIND (CONCAT(?name, " and ", ?name2, " had the same teacher ", ?teacherName) AS ?description)
 } 
