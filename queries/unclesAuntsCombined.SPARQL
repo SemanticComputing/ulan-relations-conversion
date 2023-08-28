@@ -1,0 +1,42 @@
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX xl: <http://www.w3.org/2008/05/skos-xl#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gvp: <http://vocab.getty.edu/ontology#>
+PREFIX aat: <http://vocab.getty.edu/aat/>
+PREFIX rel: <http://ldf.fi/schema/relations/>
+PREFIX rlt: <http://ldf.fi/relations/types/>
+
+CONSTRUCT {
+  
+  rlt:unclesAuntsCombined a rel:RelationType;
+      rdfs:label ?label . 
+
+  ?newURI a rel:combinedRelation;
+    rel:connectedEntity ?relURI;
+    rdfs:label ?description ;
+    rel:relationType rlt:unclesAuntsCombined .
+  
+}
+WHERE {
+  
+  ?relatedConcept gvp:ulan1532_uncle-aunt_of ?personConcept.
+  
+  ?personConcept a gvp:PersonConcept;
+    gvp:prefLabelGVP/gvp:term ?name;
+    foaf:focus ?person.
+
+  ?relatedConcept a gvp:PersonConcept;
+	   gvp:prefLabelGVP/gvp:term ?rName;
+  	   foaf:focus ?rPerson.
+
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?relatedConcept), "/ulan/"))) AS ?relURI)
+  BIND(URI(CONCAT("http://ldf.fi/schema/relations/siblingsCombined/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?newURI)
+ 
+  BIND (CONCAT("had uncles/aunts") AS ?label)
+  BIND (CONCAT(?name, " ", ?label) AS ?description)
+  #FILTER CONTAINS(?description, "Zavattari, Giovanni Angelo")
+}
