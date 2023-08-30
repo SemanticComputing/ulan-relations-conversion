@@ -15,8 +15,9 @@ CONSTRUCT {
   rlt:newphewNiecesCombined a rel:RelationType;
       rdfs:label ?label . 
 
-  ?newURI a rel:combinedRelation;
+  ?newURI a rel:CombinedRelation;
     rel:connectedEntity ?relURI;
+    rel:connectingEntity ?connectingURI;
     rdfs:label ?description ;
     rel:relationType rlt:newphewNiecesCombined .
   
@@ -34,6 +35,7 @@ WHERE {
   	   foaf:focus ?rPerson.
 
   BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?relatedConcept), "/ulan/"))) AS ?relURI)
+  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?connectingURI)
   BIND(URI(CONCAT("http://ldf.fi/schema/relations/siblingsCombined/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?newURI)
  
   BIND (CONCAT("had nephews/nieces") AS ?label)
