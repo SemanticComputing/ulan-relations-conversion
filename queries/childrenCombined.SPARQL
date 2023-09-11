@@ -15,8 +15,8 @@ CONSTRUCT {
       rdfs:label ?label . 
 
   ?newURI a rel:CombinedRelation;
-    rel:connectedEntity ?relURI;
-    rel:connectingEntity ?connectingURI;
+    rel:connectedEntity ?rPerson;
+    rel:connectingEntity ?person;
     rdfs:label ?description ;
     rel:relationType rlt:childrenCombined .
 }
@@ -31,8 +31,6 @@ WHERE {
 
   ?relatedConcept gvp:ulan1511_child_of ?personConcept.
 
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?relatedConcept), "/ulan/"))) AS ?relURI)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?connectingURI)
   BIND(URI(CONCAT("http://ldf.fi/schema/relations/childrenCombined/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?newURI)
  
   BIND (CONCAT("had children") AS ?label)
