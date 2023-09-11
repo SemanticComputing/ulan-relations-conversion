@@ -12,11 +12,11 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
    rlt:spousesCombined a rel:RelationType;
-      rdfs:label ?label . 
+      rdfs:label "had spouses" . 
 
   ?newURI a rel:CombinedRelation;
-    rel:connectedEntity ?relURI;
-    rel:connectingEntity ?connectingURI;
+    rel:connectedEntity ?rPerson;
+    rel:connectingEntity ?person;
     rdfs:label ?description ;
     rel:relationType rlt:spousesCombined .
 }
@@ -31,11 +31,7 @@ WHERE {
 
   ?relatedConcept gvp:ulan1541_spouse_of ?personConcept.
 
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?relatedConcept), "/ulan/"))) AS ?relURI)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?connectingURI)
   BIND(URI(CONCAT("http://ldf.fi/schema/relations/spousesCombined/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?newURI)
  
- 
-  BIND (CONCAT("had spouses") AS ?label)
-  BIND (CONCAT(?name, " ", ?label) AS ?description)
+  BIND (CONCAT(?name, " had spouses") AS ?description)
 }
