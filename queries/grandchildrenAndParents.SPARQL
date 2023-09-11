@@ -21,20 +21,20 @@ CONSTRUCT {
       rdfs:label ?label .     
 
   [] a rel:Relation_directed_p2p ;
-    rel:relationSubject ?newURI ;
-    rel:relationObject ?newURI2 ;
+    rel:relationSubject ?person ;
+    rel:relationObject ?person2 ;
     rdfs:label ?cDescription ;
     rel:relationType rlt:grandchildOf .
   
   [] a rel:Relation_directed_p2p ;
-    rel:relationSubject ?newURI2 ;
-    rel:relationObject ?newURI ;
+    rel:relationSubject ?person2 ;
+    rel:relationObject ?person ;
     rdfs:label ?pDescription ;
     rel:relationType rlt:grandparentOf .
   
   [] a rel:Relation_undirected ;
-    rel:connectedEntity ?newURI ;
-    rel:connectedEntity ?newURI2 ;
+    rel:connectedEntity ?person ;
+    rel:connectedEntity ?person2 ;
     rdfs:label ?description ;
     rel:relationType rlt:grandchildren .
 }
@@ -49,17 +49,13 @@ WHERE {
   
   ?personConcept gvp:ulan1513_grandchild_of ?personConcept2 .
   
-  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
-  BIND(STRAFTER(str(?personConcept2), "/ulan/") AS ?id2)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id2)) AS ?newURI2)
-
   BIND("was grandchild of" AS ?cLabel)
   BIND("was grandparent of" AS ?pLabel)
   BIND("had a grandchild-grandparent relationship" AS ?label)
   BIND (CONCAT(?name, " ", ?cLabel, " ", ?name2, ".") AS ?cDescription)
   BIND (CONCAT(?name2, " ", ?pLabel, " ", ?name, ".") AS ?pDescription)
   BIND (CONCAT(?name, " and ", ?name2, " ", ?label) AS ?description)
+  
   BIND( IF(STR(?personConcept) > STR(?personConcept2), ?person, ?person2) AS ?result)
   
   FILTER(?result != ?person2)

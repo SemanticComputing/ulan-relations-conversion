@@ -18,14 +18,14 @@ CONSTRUCT {
       rdfs:label ?label2. 
 
    [] a rel:Relation_directed_p2p ;
-    rel:relationSubject ?newURI ;
-    rel:relationObject ?newURI2 ;
+    rel:relationSubject ?person ;
+    rel:relationObject ?person2 ;
     rdfs:label ?description ;
     rel:relationType rlt:employeeOf.
 
     [] a rel:Relation_undirected ;
-    rel:connectedEntity ?newURI ;
-    rel:connectedEntity ?newURI2 ;
+    rel:connectedEntity ?person ;
+    rel:connectedEntity ?person2 ;
     rdfs:label ?description2 ;
     rel:relationType rlt:employees.
 }
@@ -40,11 +40,6 @@ WHERE {
   
   ?personConcept gvp:ulan1217_employee_of ?personConcept2 .
   
-  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
-  BIND(STRAFTER(str(?personConcept2), "/ulan/") AS ?id2)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id2)) AS ?newURI2)
-
   BIND("was employee of" AS ?label)
   BIND("had an employee-employer relationship" AS ?label2)
   BIND (CONCAT(?name, " ", ?label, " ", ?name2, ".") AS ?description)
