@@ -14,7 +14,7 @@ PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX aat: <http://vocab.getty.edu/aat/>
 
 CONSTRUCT {
-  ?newURI a schema:Person;
+  ?person a schema:Person;
     schema:birthPlace ?bPlace;
     schema:deathPlace ?dPlace ;
     schema:birthDate ?birthYear;
@@ -40,7 +40,4 @@ CONSTRUCT {
     ?personConcept gvp:agentTypePreferred/gvp:prefLabelGVP/xl:literalForm ?agentType.
     BIND(STR(?agentType) AS ?occ)
     }
-
-  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
 } 

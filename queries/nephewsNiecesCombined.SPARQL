@@ -13,11 +13,11 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 CONSTRUCT {
   
   rlt:newphewNiecesCombined a rel:RelationType;
-      rdfs:label ?label . 
+      rdfs:label "had nephews/nieces" . 
 
   ?newURI a rel:CombinedRelation;
-    rel:connectedEntity ?relURI;
-    rel:connectingEntity ?connectingURI;
+    rel:connectedEntity ?rPerson;
+    rel:connectingEntity ?person;
     rdfs:label ?description ;
     rel:relationType rlt:newphewNiecesCombined .
   
@@ -31,14 +31,11 @@ WHERE {
     foaf:focus ?person.
 
   ?relatedConcept a gvp:PersonConcept;
-	   gvp:prefLabelGVP/gvp:term ?rName;
-  	   foaf:focus ?rPerson.
+	  gvp:prefLabelGVP/gvp:term ?rName;
+  	foaf:focus ?rPerson.
 
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?relatedConcept), "/ulan/"))) AS ?relURI)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?connectingURI)
   BIND(URI(CONCAT("http://ldf.fi/schema/relations/siblingsCombined/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?newURI)
  
-  BIND (CONCAT("had nephews/nieces") AS ?label)
-  BIND (CONCAT(?name, " ", ?label) AS ?description)
-  #FILTER CONTAINS(?description, "Zavattari, Giovanni Angelo")
+  BIND (CONCAT(?name, " had nephews/nieces") AS ?description)
+ 
 }
