@@ -14,7 +14,7 @@ PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX aat: <http://vocab.getty.edu/aat/>
 
 CONSTRUCT {
-  ?newURI ?rel ?newURI2
+  ?person ?rel ?person2
 }
 WHERE {
   ?personConcept a gvp:PersonConcept;
@@ -28,9 +28,5 @@ WHERE {
   ?rel rdfs:subPropertyOf skos:related.
   
   FILTER(?rel != skos:related)
-  
-  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
-  BIND(STRAFTER(str(?personConcept2), "/ulan/") AS ?id2)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id2)) AS ?newURI2)
+
 } 
