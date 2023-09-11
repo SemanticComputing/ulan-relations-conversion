@@ -11,17 +11,17 @@ PREFIX rel: <http://ldf.fi/schema/relations/>
 PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
-  ?newURI rlt:sharedTeacher ?newURI2
+  ?person rlt:sharedTeacher ?person2
 }
 WHERE {
 
   ?personConcept a gvp:PersonConcept;
           gvp:prefLabelGVP/gvp:term [];
-          foaf:focus [].
+          foaf:focus ?person.
 
   ?personConcept2 a gvp:PersonConcept;
           gvp:prefLabelGVP/gvp:term [];
-          foaf:focus [].
+          foaf:focus ?person2.
 
   FILTER (?personConcept != ?personConcept2)
 
@@ -29,10 +29,5 @@ WHERE {
            gvp:ulan1101_teacher_of ?personConcept2;
            gvp:prefLabelGVP/gvp:term [] .
 
-  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
-  BIND(STRAFTER(str(?personConcept2), "/ulan/") AS ?id2)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id2)) AS ?newURI2)
-  
 }
 

@@ -15,8 +15,8 @@ CONSTRUCT {
       rdfs:label ?label. 
       
   [] a rel:Relation_undirected ;
-    rel:connectedEntity ?newURI ;
-    rel:connectedEntity ?newURI2 ;
+    rel:connectedEntity ?person ;
+    rel:connectedEntity ?person2 ;
     rdfs:label ?description;
     rel:relationType rlt:sharedTeacherUnDir .
   }
@@ -34,11 +34,6 @@ WHERE {
   ?teacher gvp:ulan1101_teacher_of ?personConcept;
           gvp:ulan1101_teacher_of ?personConcept2;
           gvp:prefLabelGVP/gvp:term ?teacherName .
-
-  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
-  BIND(STRAFTER(str(?personConcept2), "/ulan/") AS ?id2)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id2)) AS ?newURI2)
 
   BIND("had the same teacher" AS ?label)
   BIND (CONCAT(?name, " and ", ?name2, " ", ?label, " ", ?teacherName) AS ?description)
