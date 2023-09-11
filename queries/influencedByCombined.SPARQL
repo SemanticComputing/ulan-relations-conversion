@@ -12,11 +12,11 @@ PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
    rlt:influencedByCombined a rel:RelationType;
-      rdfs:label ?label . 
+      rdfs:label "was influenced by" . 
 
   ?newURI a rel:CombinedRelation;
-    rel:connectedEntity ?relURI;
-    rel:connectingEntity ?connectingURI;
+    rel:connectedEntity ?rPerson;
+    rel:connectingEntity ?person;
     rdfs:label ?description ;
     rel:relationType rlt:influencedByCombined .
 }
@@ -31,12 +31,8 @@ WHERE {
 
   ?relatedConcept gvp:ulan1107_influenced ?personConcept.
 
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?relatedConcept), "/ulan/"))) AS ?relURI)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?connectingURI)
   BIND(URI(CONCAT("http://ldf.fi/schema/relations/influencedByCombined/", STRAFTER(str(?personConcept), "/ulan/"))) AS ?newURI)
- 
- 
-  BIND (CONCAT("was influenced by") AS ?label)
-  BIND (CONCAT(?name, " ", ?label) AS ?description)
+  
+  BIND (CONCAT(?name, " was influenced by") AS ?description)
 }
 

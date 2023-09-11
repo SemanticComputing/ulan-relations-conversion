@@ -5,13 +5,11 @@ PREFIX rel: <http://ldf.fi/schema/relations/>
 
 
 CONSTRUCT {
-  ?newURI schema:gender ?gender .
+  ?person schema:gender ?gender .
   }
  WHERE {
   ?personConcept a gvp:PersonConcept;
-                foaf:focus/gvp:biographyPreferred/schema:gender ?gender.
-
-  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
+                foaf:focus ?person.
+  ?person gvp:biographyPreferred/schema:gender ?gender.
 
 }
