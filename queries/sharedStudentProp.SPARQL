@@ -11,7 +11,7 @@ PREFIX rel: <http://ldf.fi/schema/relations/>
 PREFIX rlt: <http://ldf.fi/relations/types/>
 
 CONSTRUCT {
-  ?person rlt:sharedInfluencer ?person2
+  ?person rlt:sharedStudent ?person2.
 }
 WHERE {
 
@@ -20,13 +20,13 @@ WHERE {
     foaf:focus ?person.
 
   ?personConcept2 a gvp:PersonConcept;
-    gvp:prefLabelGVP/gvp:term [];
+	gvp:prefLabelGVP/gvp:term [];
   	foaf:focus ?person2.
 
   FILTER (?personConcept != ?personConcept2)
 
-  ?influencer gvp:ulan1107_influenced ?personConcept;
-              gvp:ulan1107_influenced ?personConcept2;
-              gvp:prefLabelGVP/gvp:term [].
+  ?student gvp:ulan1102_student_of ?personConcept;
+          gvp:ulan1102_student_of  ?personConcept2;
+          gvp:prefLabelGVP/gvp:term [] .
 }
 
