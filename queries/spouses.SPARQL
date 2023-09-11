@@ -46,11 +46,6 @@ WHERE {
    
   ?personConcept gvp:ulan1541_spouse_of ?personConcept2.
 
-  BIND(STRAFTER(str(?personConcept), "/ulan/") AS ?id)
-  BIND(STRAFTER(str(?personConcept2), "/ulan/") AS ?id2)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id)) AS ?newURI)
-  BIND(URI(CONCAT("http://ldf.fi/ulan/", ?id2)) AS ?newURI2)
-
   BIND("was spouse of" AS ?label)
   BIND("were spouses" AS ?label2)
   BIND(CONCAT(?name, " ", ?label, " ", ?name2, ".") AS ?description)
